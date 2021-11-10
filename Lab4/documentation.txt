@@ -1,0 +1,17 @@
+LAB 4
+
+https://github.com/dianatibre/FLCD
+
+The program is composed of three classes:
+
+1. FileOperation is a class which is used for reading the content of a file and returning it as a Scanner.
+2. FA (Finite Automata) class is the main class of the program. It has the fields of a Finite Automata (set of states, set of final states,
+initial state, the alphabet and the set of transitions) and getters for them.
+In the constructor, a method is called together with the scanner returned by the FileOperation class and
+assigns to each field the corresponding values from the file.
+The additional methods are the ones for verifying if a string is a final state and if FA is a DFA.
+These methods are used in the seqIsAccepted method which is the method to verify if, For a DFA, a sequence is accepted by the FA.
+The user gives a sequence of digits from the alphabet and this method verifies if it is accepted by starting from the initial state and
+parsing the sequence by going to the next state with the transition.
+3. Main - the main function is the one that calls the readFile method, initializes the FA, prints the menu, reads the command and
+executes it.

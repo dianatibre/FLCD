@@ -1,0 +1,8 @@
+start
+	declare array ( int ) [ 100 ] numbers
+	declare int sum
+	declare int 1n
+	for 1n in numbers :
+		sum += n
+	write ( sum )
+stop

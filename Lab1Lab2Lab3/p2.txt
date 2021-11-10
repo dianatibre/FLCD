@@ -1,0 +1,15 @@
+start
+	declare int a
+	declare int b
+	declare int c
+	declare float x1 <- 0.0
+	declare float x2 <- 0.0
+	declare int aux <- b * b
+	aux <-- 4 * a * c
+	aux <- sqrt ( aux )
+	x1 <-- b + aux
+	x1 <-/ 2 * a
+	x2 <-- b - aux
+	x2 <-/ 2 * a
+	write ( x1 , x2 )
+stop

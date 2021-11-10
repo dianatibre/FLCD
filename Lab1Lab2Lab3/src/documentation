@@ -1,0 +1,45 @@
+https://github.com/dianatibre/FLCD
+
+Lab 2
+
+Statement: Implement the Symbol Table (ST) as the specified data structure, with the corresponding operations
+
+My ST class is implemented as following:
+    - it has two fields: m (the size of the ST), elements - implemented as a HashMap with key=position and value=the list of symbols in the table (each node of the ST, having the position as the key and the value is the bucket of elements)
+    - the constructor initialises the ST of size m. The value of each key is represented as a list of objects (the bucket for each position of the ST)
+    - hashFunction -> computes the hash function by computing the sum of all the ascii codes in the string
+    - lookUp -> returns the position of the element on its bucket. If the elements does not exist, returns -1
+    - add -> returns the result of the hashFunction (position in ST) if the element already exists, adds it in the bucket if it doesn't
+
+In the main function, after I initialised my ST, I added some elements to it in order to see if the hashing and the exceptions work.
+I tried adding an element twice but it was not added.
+I tried returning the result of lookUp after some data was inserted and it works fine.
+
+Lab 3
+
+The main components of my Scanner are: Codification, PIF and ST.
+Besides this, I am using the class FileOperation which I use for reading and writing from and in the files.
+At first, Codification is a class implemented as a HashMap which contains all my Operators, Separators and Reserved Words.
+The main idea is that every separator, operator and reserved words gets a corresponding integer as the codification.
+The identifiers and constants have their codes too. (Identifier - 0 , Constant - 1).
+There is the tokenGenerator method which separates the lines of code into tokens by space.
+In this class I have methods for checking if a token is a specific type (identifier, constant, operator, separator, reserved words).
+The next component of the program is the PIF class.
+It has a list of objects which are the tokens.
+Everytime a token appears in the code, it is added in PIF with its corresponding codification.
+
+In the main function, the program works as following:
+    - at first, the Codification, PIF and ST are initialized.
+    - after that, the file with the problem is read.
+    - for every line in the file:
+        - the tokens are generated using tokenGenerator method from the Codification.
+        - each token is checked for being a Separator, ReservedWord of Operator and if so, it is added into the PIF
+         with the corresponding code and the value -1
+        - if not, they are being checked for Identifier.
+         If true, it is added in the PIF with the corresponding value from the SymTable and the code 0.
+        - if False, they are checked for being Constant.
+         If true, it is added in the PIF with the corresponding value from the SymTable and the code 1.
+        - of none of the above, this means that there is a lexical error and a message is shown.
+    - if there were no lexical errors found, a corresponding message will be printed together with the tables (PIF, ST and Codification)
+     and PIF and ST will be written into the file.
+

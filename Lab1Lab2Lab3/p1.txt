@@ -1,0 +1,15 @@
+start
+    declare int a
+	declare int b
+	declare int c
+	if a > b :
+		if a > c :
+			write ( a )
+		else :
+			write ( c )
+	else :
+		if b > c :
+			write ( b )
+		else :
+			write ( c )
+stop
