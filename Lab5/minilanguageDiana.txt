@@ -1,0 +1,23 @@
+N = { program, declaration, type1, arraydecl, cmpdstmt, stmtlist, stmt, simplstmt, assignment, assignstmt, mathematical, expression, term, iostmt, structstmt, ifstmt, whilestmt, condition, relation }
+E = { identifier, constant,  =+, -, *, /, <-, <—, <-+, <-/, <-*, <, >, <=, >=, =, <>, int, float, declare, start, stop, read, write, array, if, else, while, (, ), for, :, ., [, ], begin, end, NewLine}
+P = {
+program -> start cmpdstmt stop .
+declaration -> declare type1 identifier
+type1 -> boolean | int | float | string
+arraydecl -> array ( type1 ) [ number ] identifier cmpdstmt = begin stmtlist end
+stmtlist -> stmt | stmt NewLine stmtlist
+stmt -> simplstmt | structstmt
+simplstmt -> assignstmt | iostmt
+assignment -> <- | <-- | <-+ | <-* | <-/
+assignstmt -> identifier assignment expression
+mathematical -> + | - | * | /
+expression -> expression mathematical term | term
+term -> expression | identifier
+iostmt -> read | write ( identifier )
+structstmt -> cmpdstmt | ifstmt | whilestmt
+ifstmt -> if condition : stmt [else : stmt]
+whilestmt -> while condition : stmt
+condition -> expression relation expression
+relation -> < | <= | = | <> | >= | >
+}
+S = program
