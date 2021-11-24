@@ -47,6 +47,27 @@ public class Main {
                 System.out.println(s);
             } else if (option == 7) {
                 System.out.println(grammar.checkCFG());
+            } else if (option == 8) {
+                LR0 lr0 = new LR0(grammar);
+                Production production = new Production("S'", List.of("S"));
+                Production production1 = new Production("S", List.of("B"));
+                List<Production> productions = new ArrayList<>();
+                Production p1 = new Production("S", Arrays.asList("0", "B"));
+                Production p2 = new Production("S", Arrays.asList("1", "A"));
+                Production p3 = new Production("A", Collections.singletonList("0"));
+                Production p4 = new Production("A", Arrays.asList("0", "S"));
+                Production p5 = new Production("A", Arrays.asList("1", "A", "A"));
+                productions.add(p1);
+                productions.add(p2);
+                productions.add(p3);
+                productions.add(p4);
+                productions.add(p5);
+                System.out.println("Closure: ");
+                System.out.println(lr0.closure(Arrays.asList(production, production1)));
+                System.out.println("GoTo: ");
+                System.out.println(lr0.goTo(productions, "0"));
+//                System.out.println("ColCan: ");
+//                System.out.println(lr0.colCan());
             }
         }
     }
@@ -61,6 +82,7 @@ public class Main {
         System.out.println("5. Print set of productions. ");
         System.out.println("6. Print productions for a given non-terminal");
         System.out.println("7. Check CGF");
+        System.out.println("8. Test");
     }
 
     public static Grammar readGrammarFromFile() {
@@ -122,7 +144,7 @@ public class Main {
         HashMap<String, List<String>> P = new HashMap<>();
         String S = "";
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("minilanguageDiana.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("minilanguage.txt"));
             String text = reader.readLine();
             while (text != null) {
                 if (text.charAt(0) == 'N' || text.charAt(0) == 'E' || text.charAt(0) == 'S') {

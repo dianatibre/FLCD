@@ -92,4 +92,33 @@ public class Grammar {
         }
         return true;
     }
+
+    public HashMap<String, List<String>> getP() {
+        return P;
+    }
+
+    public String getS() {
+        return S;
+    }
+
+    public void setS(String s) {
+        S = s;
+    }
+
+    public boolean checkNonTerminal(String nonTerminal) {
+        for (int i = 0; i < N.length; i++) {
+            if (this.N[i].equals(nonTerminal)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String[] getN() {
+        return N;
+    }
+
+    public String[] getE() {
+        return E;
+    }
 }
