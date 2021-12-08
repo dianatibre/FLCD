@@ -1,4 +1,4 @@
-N = {S,A,B}
-E = {a, b, c}
-P = {S->0B|1A, A->0|0S|1AA, B->1|1S|0BB}
-S = S
+N = {A,B, C}
+E = {a, b}
+P = {A->Ba|aB, B->Ca, C->b}
+S = A

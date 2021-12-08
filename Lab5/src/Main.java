@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.lang.*;
 
 public class Main {
 
@@ -29,45 +30,32 @@ public class Main {
             } else if (option == 6) {
                 System.out.print("Non-terminal = ");
                 String nonterminal = scanner.next();
-                HashMap<String, List<String>> hashMap = grammar.productionsForANonterminal(nonterminal);
-                String s = "Productions: = {";
-                if (hashMap.size() == 0) {
-                    s += "}";
-                }
-                int cnt = hashMap.size();
-                for (Map.Entry<String, List<String>> entry : hashMap.entrySet()) {
-                    String str = entry.getKey() + "-> ";
-                    cnt -= 1;
-                    for (int i = 0; i < entry.getValue().size(); i++)
-                        if (i == entry.getValue().size() - 1 && cnt == 0)
-                            s += str + entry.getValue().get(i) + "}\n";
-                        else
-                            s += str + entry.getValue().get(i) + ", ";
-                }
-                System.out.println(s);
+                grammar.productionsForANonterminal(nonterminal);
             } else if (option == 7) {
                 System.out.println(grammar.checkCFG());
             } else if (option == 8) {
                 LR0 lr0 = new LR0(grammar);
-                Production production = new Production("S'", List.of("S"));
-                Production production1 = new Production("S", List.of("B"));
-                List<Production> productions = new ArrayList<>();
-                Production p1 = new Production("S", Arrays.asList("0", "B"));
-                Production p2 = new Production("S", Arrays.asList("1", "A"));
-                Production p3 = new Production("A", Collections.singletonList("0"));
-                Production p4 = new Production("A", Arrays.asList("0", "S"));
-                Production p5 = new Production("A", Arrays.asList("1", "A", "A"));
-                productions.add(p1);
-                productions.add(p2);
-                productions.add(p3);
-                productions.add(p4);
-                productions.add(p5);
-                System.out.println("Closure: ");
-                System.out.println(lr0.closure(Arrays.asList(production, production1)));
-                System.out.println("GoTo: ");
-                System.out.println(lr0.goTo(productions, "0"));
+                List<Item> items = new ArrayList<>();
+                for (String s : grammar.getP().keySet()) {
+                    for (List<String> list : grammar.getP().get(s))
+                        items.add(new Item(s, list));
+
+                }
+
+//                System.out.println(items);
+//                System.out.println("Closure: ");
+//                System.out.println(lr0.closure(items));
+//                System.out.println("GoTo: ");
+//                System.out.println(lr0.goTo(items, "public"));
+////                System.out.println(lr0.goTo(productions, "0"));
 //                System.out.println("ColCan: ");
-//                System.out.println(lr0.colCan());
+//                System.out.println(lr0.canonicalCollection());
+
+                List<List<Item>> states = lr0.canonicalCollection();
+                System.out.println(lr0.stateToString(states));
+                Map<List<String>, List<List<String>>> table = lr0.generateLR0Table(states);
+                //System.out.println(lr0.generateLR0Table(states));
+                System.out.println(lr0.tableToString(table));
             }
         }
     }
@@ -88,7 +76,7 @@ public class Main {
     public static Grammar readGrammarFromFile() {
         String[] N = {};
         String[] E = {};
-        HashMap<String, List<String>> P = new HashMap<>();
+        HashMap<String, List<List<String>>> P = new HashMap<>();
         String S = "";
 
         try {
@@ -114,10 +102,23 @@ public class Main {
                         }
                         if (P.containsKey(r[0])) {
                             for (int k = 0; k < list.size(); k++) {
-                                P.get(r[0]).add(list.get(k));
+                                List<String> strings = new ArrayList<>();
+                                String s = list.get(k);
+                                for (int a = 0; a < s.length(); a++) {
+                                    strings.add(String.valueOf(s.charAt(a)));
+                                }
+                                P.get(r[0]).add(strings);
                             }
                         } else {
-                            P.put(r[0], list);
+                            P.put(r[0], new ArrayList<>());
+                            for (int k = 0; k < list.size(); k++) {
+                                List<String> strings = new ArrayList<>();
+                                String s = list.get(k);
+                                for (int a = 0; a < s.length(); a++) {
+                                    strings.add(String.valueOf(s.charAt(a)));
+                                }
+                                P.get(r[0]).add(strings);
+                            }
                         }
                     }
                 } else if (elements[0].equals("S")) {
@@ -141,7 +142,7 @@ public class Main {
     public static Grammar readMiniLanguage() {
         String[] N = {};
         String[] E = {};
-        HashMap<String, List<String>> P = new HashMap<>();
+        HashMap<String, List<List<String>>> P = new HashMap<>();
         String S = "";
         try {
             BufferedReader reader = new BufferedReader(new FileReader("minilanguage.txt"));
@@ -157,10 +158,22 @@ public class Main {
                         N = terms.split(",");
                     } else if (elements[0].equals("E")) {
                         String[] a = terms.split(",");
-                        String[] aux = new String[a.length + 1];
-                        aux = a;
-                        aux[aux.length - 1] = String.valueOf(',');
-                        E = aux;
+                        String[] aux = new String[a.length + 3];
+                        for (int i = 0; i < a.length; i++) {
+                            aux[i] = a[i];
+                        }
+                        aux[a.length] = String.valueOf(',');
+                        aux[a.length + 1] = String.valueOf('{');
+                        aux[a.length + 2] = String.valueOf('}');
+                        int index = 0;
+                        String[] aux1 = new String[aux.length-2];
+                        for (int i = 0; i < aux.length; i++) {
+                            if (aux[i].length()!=0) {
+                                aux1[index] = aux[i];
+                                index++;
+                            }
+                        }
+                        E = aux1;
 //                        E = terms.split(",");
                     } else if (elements[0].equals("S")) {
                         S = terms;
@@ -174,12 +187,31 @@ public class Main {
                         for (int j = 0; j < r3.length; j++) {
                             list.add(r3[j]);
                         }
-                        if (P.containsKey(r2[0]))
+                        if (P.containsKey(r2[0])) {
                             for (int k = 0; k < list.size(); k++) {
-                                P.get(r2[0]).add(list.get(k));
+                                List<String> strings = new ArrayList<>();
+                                String s = list.get(k);
+                                String[] res = s.split(" ");
+                                for (int q = 0; q < res.length; q++) {
+                                    strings.add(res[q]);
+                                }
+                                P.get(r2[0]).add(strings);
+//                                    for (int a = 0; a < s.length(); a++) {
+//                                        strings.add(String.valueOf(s.charAt(a)));
+//                                    }
+//                                P.get(r2[0]).add(s);
                             }
-                        else {
-                            P.put(r2[0], list);
+                        } else {
+                            P.put(r2[0], new ArrayList<>());
+                            for (int k = 0; k < list.size(); k++) {
+                                List<String> strings = new ArrayList<>();
+                                String s = list.get(k);
+                                String[] res = s.split(" ");
+                                for (int q = 0; q < res.length; q++) {
+                                    strings.add(res[q]);
+                                }
+                                P.get(r2[0]).add(strings);
+                            }
                         }
                         text = reader.readLine();
                     }
