@@ -2,22 +2,26 @@ N = {program, statement_list, statement, declaration, simple_statement, struct_s
 E = { identifier, constant, if, else, while, return, void, int, char, read, write, public, static, SimonaHalep, stop, +, -, *, /, %, =, ==, !=, !, <, <=, >=, >, [, ], {, }, (, ), $, ;, &&, , }
 P = {
 program -> public static void SimonaHalep ( ) { statement_list }
-statement_list -> statement|statement ; statement_list
+statement_list -> statement|statement_list statement
 statement -> declaration|simple_statement|struct_statement|break_statement
 declaration -> type identifier ;
-type -> simple_type|array_type
+type -> simple_type
 simple_type -> int|char
-array_type -> simple_type [ ]
 simple_statement -> assignment_statement|io_statement
 assignment_statement -> identifier = expression ;
-expression -> term|expression operation expression|( expression operation expression )
+expression -> term|sum|dif|prod|div|mod
+sum -> expression + expression
+dif -> expression - expression
+prod -> expression * expression
+div -> expression / expression
+mod -> expression % expression
 term -> identifier|constant
 operation -> +|-|*|/|%
 io_statement -> input_statement|output_statement
 input_statement -> read ( identifier ) ;
 output_statement -> write ( identifier ) ;|write ( constant ) ;
 struct_statement -> if_statement|while_statement
-if_statement -> if ( condition ) { statement_list }|if ( condition ) { statement_list } else { statement_list }
+if_statement -> if ( condition ) { statement_list }
 while_statement -> while ( condition ) { statement_list }
 condition -> expression relation expression
 relation -> <|<=|>=|>|==|!=

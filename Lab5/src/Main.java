@@ -1,13 +1,12 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.lang.*;
 
 public class Main {
 
     public static Grammar grammar = new Grammar();
+    public static List<String> word = new ArrayList<>();
+
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -56,6 +55,267 @@ public class Main {
                 Map<List<String>, List<List<String>>> table = lr0.generateLR0Table(states);
                 //System.out.println(lr0.generateLR0Table(states));
                 System.out.println(lr0.tableToString(table));
+
+                //System.out.println(grammar.numberProduction().toString());
+
+                //readSequence();
+                readPIF();
+                //seminar
+//                word.add("a");
+//                word.add("b");
+//                word.add("b");
+//                word.add("c");
+
+                //ex1
+//                word.add("public");
+//                word.add("static");
+//                word.add("void");
+//                word.add("SimonaHalep");
+//                word.add("(");
+//                word.add(")");
+//                word.add("{");
+//                word.add("int");
+//                word.add("identifier");
+//                word.add(";");
+//                word.add("int");
+//                word.add("identifier");
+//                word.add(";");
+//                word.add("int");
+//                word.add("identifier");
+//                word.add(";");
+//                word.add("read");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add(";");
+//                word.add("read");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add(";");
+//                word.add("read");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add(";");
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(">");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add("{");
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(">");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add("{");
+//                word.add("write");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add(";");
+//                word.add("}");
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add("<=");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add("{");
+//                word.add("write");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add(";");
+//                word.add("}");
+//                word.add("}");
+//                word.add("}");
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add("<=");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add("{");
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(">");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add("{");
+//                word.add("write");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add(";");
+//                word.add("}");
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add("<=");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add("{");
+//                word.add("write");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add(";");
+//                word.add("}");
+//                word.add("}");
+//                word.add("}");
+//                word.add("}");
+
+                //ex2
+//                word.add("public");
+//                word.add("static");
+//                word.add("void");
+//                word.add("SimonaHalep");
+//                word.add("(");
+//                word.add(")");
+//                word.add("{");
+//                word.add("int");
+//                word.add("identifier");
+//                word.add(";");
+//                word.add("int");
+//                word.add("identifier");
+//                word.add(";");
+//                word.add("}");
+//                word.add("read");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add(";");
+//
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add("!=");
+//                word.add("constant");
+//                word.add(")");
+//                word.add("{");
+//                word.add("write");
+//                word.add("(");
+//                word.add("Number not prime!");
+//                word.add(")");
+//                word.add(";");
+//                word.add("stop");
+//                word.add("}");
+//
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add("%2");
+//                word.add("constant");
+//                word.add("==");
+//                word.add("constant");
+//                word.add(")");
+//                word.add("{");
+//                word.add("write");
+//                word.add("(");
+//                word.add("Number not prime!");
+//                word.add(")");
+//                word.add(";");
+//                word.add("stop");
+//                word.add("}");
+//
+//
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add("<=");
+//                word.add("constant");
+//                word.add(")");
+//                word.add("{");
+//                word.add("write");
+//                word.add("(");
+//                word.add("Number not prime!");
+//                word.add(")");
+//                word.add(";");
+//                word.add("stop");
+//                word.add("}");
+//
+//                word.add("identifier");
+//                word.add("=");
+//                word.add("constant");
+//                word.add("while");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add("<=");
+//                word.add("identifier");
+//                word.add("%");
+//                word.add("constant");
+//                word.add(")");
+//                word.add("{");
+//                word.add("if");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add("%");
+//                word.add("identifier");
+//                word.add("==");
+//                word.add("constant");
+//                word.add(")");
+//                word.add("{");
+//                word.add("write");
+//                word.add("(");
+//                word.add("Number not prime!");
+//                word.add(")");
+//                word.add(";");
+//                word.add("stop");
+//                word.add("}");
+//                word.add("}");
+//
+//                word.add("write");
+//                word.add("(");
+//                word.add("Number prime");
+//                word.add(")");
+//                word.add(";");
+//                word.add("}");
+
+                //ex3
+//                word.add("public");
+//                word.add("static");
+//                word.add("void");
+//                word.add("SimonaHalep");
+//                word.add("(");
+//                word.add(")");
+//                word.add("{");
+//                word.add("int");
+//                word.add("identifier");
+//                word.add(";");
+//                word.add("int");
+//                word.add("identifier");
+//                word.add(";");
+//                word.add("}");
+//                word.add("write");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add(")");
+//                word.add("while");
+//                word.add("(");
+//                word.add("identifier");
+//                word.add("!=");
+//                word.add("constant");
+//                word.add("{");
+//                word.add("identifier");
+//                word.add("=");
+//                word.add("identifier");
+//                word.add("+");
+//                word.add("identifier");
+//                word.add("}");
+//                word.add(")");
+//                word.add(";");
+
+                Stack<String> outputStack = lr0.outputStack(word, table);
+                System.out.println(outputStack);
+                //System.out.println(lr0.productionsInOutput(outputStack));
+                lr0.printParsingTable(lr0.productionsInOutput(outputStack));
+                //printSequence(outputStack);
+                printSequence2(outputStack);
             }
         }
     }
@@ -166,9 +426,9 @@ public class Main {
                         aux[a.length + 1] = String.valueOf('{');
                         aux[a.length + 2] = String.valueOf('}');
                         int index = 0;
-                        String[] aux1 = new String[aux.length-2];
+                        String[] aux1 = new String[aux.length - 2];
                         for (int i = 0; i < aux.length; i++) {
-                            if (aux[i].length()!=0) {
+                            if (aux[i].length() != 0) {
                                 aux1[index] = aux[i];
                                 index++;
                             }
@@ -227,5 +487,68 @@ public class Main {
             System.out.println(e.getMessage());
         }
         return new Grammar(N, E, P, S);
+    }
+
+    public static void readSequence() {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("seq.txt"));
+            String text = reader.readLine();
+            while (text != null) {
+                word.add(text);
+                text = reader.readLine();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void printSequence(Stack<String> output) {
+        try {
+            FileWriter myWriter = new FileWriter("out1.txt");
+            for (int i = 0; i < output.size(); i++) {
+                myWriter.write(output.get(i));
+            }
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void printSequence2(Stack<String> output) {
+        try {
+            FileWriter myWriter = new FileWriter("out2.txt");
+            for (int i = 0; i < output.size(); i++) {
+                myWriter.write(output.get(i));
+            }
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static String readPIF() {
+        PIF pif = new PIF();
+        String codes = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("pif.txt"));
+            String text = reader.readLine();
+            while (text != null) {
+                String[] pair = text.replace(" ", "").split("\\|");
+                pif.addToken(pair[0], Integer.parseInt(pair[1]));
+                codes += pair[0] + " ";
+                text = reader.readLine();
+                word.add(pair[0]);
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        if (codes.charAt(codes.length() - 1) == ' ')
+            codes = codes.substring(0, codes.length() - 1);
+        System.out.println(codes);
+        return codes;
     }
 }
